@@ -12,6 +12,8 @@ services:
       - ~/jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/local/bin/docker:/usr/local/bin/docker
+    networks:
+      - Med  
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
@@ -26,4 +28,4 @@ services:
       - ./data/gitlab:/var/opt/gitlab
       - ./logs:/var/log/gitlab
     networks:
-      - gitlab
+      - Med
