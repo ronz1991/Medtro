@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8081:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - ~/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 8822
+    ports:
+      - "8000:80"
+      - "8822:22"
+    volumes:
+      - ./config/gitlab:/etc/gitlab
+      - ./data/gitlab:/var/opt/gitlab
+      - ./logs:/var/log/gitlab
+    networks:
+      - gitlab
